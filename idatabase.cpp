@@ -14,6 +14,7 @@ void IDatabase::ininDatabase()
     }
 }
 
+//患者管理
 bool IDatabase::initPatientModel()
 {
     patientTabModel = new QSqlTableModel(this,database);
@@ -65,7 +66,51 @@ void IDatabase::reverPatientEdit()
     patientTabModel->revertAll();
 }
 
+//医生管理
+bool IDatabase::initDoctorModel()
+{
+    doctorTabModel = new QSqlTableModel(this,database);
+    doctorTabModel->setTable("doctor");
+    doctorTabModel->setEditStrategy(QSqlTableModel::OnManualSubmit);//数据保存方式，OnManualSubmit , OnRowChange
+    doctorTabModel->setSort(doctorTabModel->fieldIndex("name"),Qt::AscendingOrder); //排序
+    if (!(doctorTabModel->select())) return false;  //查询数据
 
+    theDoctorSelection = new QItemSelectionModel(doctorTabModel);
+    return true;
+}
+int IDatabase::addNewDoctor()
+{
+    doctorTabModel->insertRow(doctorTabModel->rowCount(),QModelIndex());
+    QModelIndex curIndex = doctorTabModel->index(doctorTabModel->rowCount()-1,1);
+    int curRecNo = curIndex.row();
+    QSqlRecord curRec = doctorTabModel->record(curRecNo);
+    curRec.setValue("ID",QUuid::createUuid().toString(QUuid::WithoutBraces));
+    doctorTabModel->setRecord(curRecNo,curRec);
+    return curIndex.row();
+}
+bool IDatabase::searchDoctor(QString filter)
+{
+    doctorTabModel->setFilter(filter);
+    return doctorTabModel->select();
+}
+bool IDatabase::deleteCurrentDoctor()
+{
+    QModelIndex curIndex = theDoctorSelection->currentIndex();
+    doctorTabModel->removeRow(curIndex.row());
+    doctorTabModel->submitAll();
+    doctorTabModel->select();
+}
+bool IDatabase::submitDoctorEdit()
+{
+    return doctorTabModel->submitAll();
+}
+void IDatabase::reverDoctorEdit()
+{
+    doctorTabModel->revertAll();
+}
+
+
+//登录注册
 QString IDatabase::userLogin(QString userName, QString password)
 {
    // return "loginOK";

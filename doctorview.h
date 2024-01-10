@@ -15,6 +15,18 @@ public:
     explicit DoctorView(QWidget *parent = nullptr);
     ~DoctorView();
 
+private slots:
+    void on_btSearch_clicked();
+
+    void on_btAdd_clicked();
+
+    void on_btDelete_clicked();
+
+    void on_btEdit_clicked();
+
+signals:
+    void goDoctorEditView(int index);
+
 private:
     Ui::DoctorView *ui;
 };

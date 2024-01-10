@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     departview.cpp \
+    doctoreditview.cpp \
     doctorview.cpp \
     idatabase.cpp \
     loginview.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 
 HEADERS += \
     departview.h \
+    doctoreditview.h \
     doctorview.h \
     idatabase.h \
     loginview.h \
@@ -33,6 +35,7 @@ HEADERS += \
 
 FORMS += \
     departview.ui \
+    doctoreditview.ui \
     doctorview.ui \
     loginview.ui \
     masterview.ui \

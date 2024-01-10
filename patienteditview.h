@@ -23,7 +23,7 @@ private slots:
 
 private:
     Ui::patientEditView *ui;
-    QDataWidgetMapper   *dataMapper; //数据映射
+    QDataWidgetMapper *dataMapper; //数据映射
 
 signals:
     void goPreviousView();

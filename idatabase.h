@@ -37,9 +37,17 @@ public:
     bool deleteCurrentPatient();
     bool submitPatientEdit();
     void reverPatientEdit();
-
     QSqlTableModel  *patientTabModel;  //数据模型
     QItemSelectionModel *thePatientSelection; //选择模型
+
+    bool initDoctorModel();
+    int addNewDoctor();
+    bool searchDoctor(QString filter);
+    bool deleteCurrentDoctor();
+    bool submitDoctorEdit();
+    void reverDoctorEdit();
+    QSqlTableModel *doctorTabModel;
+    QItemSelectionModel *theDoctorSelection;
 
 
 };
