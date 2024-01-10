@@ -43,7 +43,7 @@
         </size>
        </property>
        <property name="placeholderText">
-        <string>请输入姓名进行查找</string>
+        <string>请输入名称进行查找</string>
        </property>
       </widget>
      </item>

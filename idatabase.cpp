@@ -109,6 +109,53 @@ void IDatabase::reverDoctorEdit()
     doctorTabModel->revertAll();
 }
 
+//药物管理
+bool IDatabase::initMedicinesModel()
+{
+    medicinesTabModel = new QSqlTableModel(this,database);
+    medicinesTabModel->setTable("Medicines");
+    medicinesTabModel->setEditStrategy(QSqlTableModel::OnManualSubmit);//数据保存方式，OnManualSubmit , OnRowChange
+    medicinesTabModel->setSort(medicinesTabModel->fieldIndex("name"),Qt::AscendingOrder); //排序
+    if (!(medicinesTabModel->select())) return false;  //查询数据
+    theMedicinesSelection = new QItemSelectionModel(medicinesTabModel);
+    return true;
+}
+
+int IDatabase::addNewMedicines()
+{
+    medicinesTabModel->insertRow(medicinesTabModel->rowCount(),QModelIndex());
+    QModelIndex curIndex = medicinesTabModel->index(medicinesTabModel->rowCount()-1,1);
+    int curRecNo = curIndex.row();
+    QSqlRecord curRec = medicinesTabModel->record(curRecNo);
+    curRec.setValue("ID",QUuid::createUuid().toString(QUuid::WithoutBraces));
+    medicinesTabModel->setRecord(curRecNo,curRec);
+    return curIndex.row();
+}
+
+bool IDatabase::searchMedicines(QString filter)
+{
+    medicinesTabModel->setFilter(filter);
+    return medicinesTabModel->select();
+}
+
+bool IDatabase::deleteCurrentMedicines()
+{
+    QModelIndex curIndex = theMedicinesSelection->currentIndex();
+    medicinesTabModel->removeRow(curIndex.row());
+    medicinesTabModel->submitAll();
+    medicinesTabModel->select();
+}
+
+bool IDatabase::submitMedicinesEdit()
+{
+    return medicinesTabModel->submitAll();
+}
+
+void IDatabase::reverMedicinesEdit()
+{
+    medicinesTabModel->revertAll();
+}
+
 
 //登录注册
 QString IDatabase::userLogin(QString userName, QString password)

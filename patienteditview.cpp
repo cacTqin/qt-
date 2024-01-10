@@ -37,7 +37,6 @@ patientEditView::~patientEditView()
 void patientEditView::on_btSave_clicked()
 {
     IDatabase::getInstance().submitPatientEdit();
-
     emit goPreviousView();
 }
 

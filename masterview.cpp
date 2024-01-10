@@ -41,15 +41,7 @@ void MasterView::goWelcomeView()
     connect(welcomeView,SIGNAL(goDoctorView()),this,SLOT(goDoctorView()));
     connect(welcomeView,SIGNAL(goPatientView()),this,SLOT(goPatientView()));
     connect(welcomeView,SIGNAL(goDepartView()),this,SLOT(goDepartView()));
-}
-
-void MasterView::goDoctorView()
-{
-    qDebug()<<"goDoctorView";
-    doctorView = new DoctorView(this);
-
-    pushWidgetToStackView(doctorView);
-    connect(doctorView,SIGNAL(goDoctorEditView(int)),this,SLOT(goDoctorEditView(int)));
+    connect(welcomeView,SIGNAL(goMedicinesView()),this,SLOT(goMedicinesView()));
 }
 
 void MasterView::goDepartView()
@@ -79,12 +71,19 @@ void MasterView::goPatienteditView(int rowNo)
     connect(patienteditView,SIGNAL(goPreviousView()),this,SLOT(goPreviousView()));
 }
 
+void MasterView::goDoctorView()
+{
+    qDebug()<<"goDoctorView";
+    doctorView = new DoctorView(this);
+    pushWidgetToStackView(doctorView);
+    connect(doctorView,SIGNAL(goDoctorEditView(int)),this,SLOT(goDoctorEditView(int)));
+}
+
 void MasterView::goDoctorEditView(int rowNo)
 {
     qDebug()<<"goDoctorEditView";
     doctorEditView = new DoctorEditView(this, rowNo);
     pushWidgetToStackView(doctorEditView);
-
     connect(doctorEditView,SIGNAL(goPreviousView()),this,SLOT(goPreviousView()));
 }
 
@@ -99,6 +98,23 @@ void MasterView::goPreviousView()
         ui->stackedWidget->removeWidget(widget);
         delete widget;
     }
+}
+
+void MasterView::goMedicinesView()
+{
+    qDebug()<<"goMedicinesView";
+    medicinesView = new MedicinesView(this);
+
+    pushWidgetToStackView(medicinesView);
+    connect(medicinesView,SIGNAL(goMedicinesEditView(int)),this,SLOT(goMedicinesEditView(int)));
+}
+
+void MasterView::goMedicinesEditView(int rowNo)
+{
+    qDebug()<<"goMedicinesEditView";
+    medicinesEditView = new MedicinesEditView(this, rowNo);
+    pushWidgetToStackView(medicinesEditView);
+    connect(medicinesEditView,SIGNAL(goPreviousView()),this,SLOT(goPreviousView()));
 }
 
 void MasterView::pushWidgetToStackView(QWidget *widget)

@@ -49,6 +49,15 @@ public:
     QSqlTableModel *doctorTabModel;
     QItemSelectionModel *theDoctorSelection;
 
+    bool initMedicinesModel();
+    int addNewMedicines();
+    bool searchMedicines(QString filter);
+    bool deleteCurrentMedicines();
+    bool submitMedicinesEdit();
+    void reverMedicinesEdit();
+    QSqlTableModel *medicinesTabModel;
+    QItemSelectionModel *theMedicinesSelection;
+
 
 };
 

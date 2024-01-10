@@ -22,10 +22,13 @@ private slots:
 
     void on_patientManager_clicked();
 
+    void on_medicinesManager_clicked();
+
 signals:
     void goDepartView();
     void goDoctorView();
     void goPatientView();
+    void goMedicinesView();
 
 
 private:

@@ -33,3 +33,9 @@ void WelcomeView::on_patientManager_clicked()
     emit goPatientView();
 }
 
+
+void WelcomeView::on_medicinesManager_clicked()
+{
+    emit goMedicinesView();
+}
+
