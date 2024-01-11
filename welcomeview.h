@@ -24,11 +24,14 @@ private slots:
 
     void on_medicinesManager_clicked();
 
+    void on_History_clicked();
+
 signals:
     void goDepartView();
     void goDoctorView();
     void goPatientView();
     void goMedicinesView();
+    void goHistoryView();
 
 
 private:

@@ -58,7 +58,14 @@ public:
     QSqlTableModel *medicinesTabModel;
     QItemSelectionModel *theMedicinesSelection;
 
-
+    bool initHistoryModel();
+    int addNewHistory();
+    bool searchHistory(QString filter);
+    bool deleteCurrentHistory();
+    bool submitHistoryEdit();
+    void reverHistoryEdit();
+    QSqlTableModel *historyTabModel;
+    QItemSelectionModel *theHistorySelection;
 };
 
 #endif //IDATABASE_H

@@ -39,3 +39,9 @@ void WelcomeView::on_medicinesManager_clicked()
     emit goMedicinesView();
 }
 
+
+void WelcomeView::on_History_clicked()
+{
+    emit goHistoryView();
+}
+

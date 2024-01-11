@@ -78,6 +78,7 @@ bool IDatabase::initDoctorModel()
     theDoctorSelection = new QItemSelectionModel(doctorTabModel);
     return true;
 }
+
 int IDatabase::addNewDoctor()
 {
     doctorTabModel->insertRow(doctorTabModel->rowCount(),QModelIndex());
@@ -88,11 +89,13 @@ int IDatabase::addNewDoctor()
     doctorTabModel->setRecord(curRecNo,curRec);
     return curIndex.row();
 }
+
 bool IDatabase::searchDoctor(QString filter)
 {
     doctorTabModel->setFilter(filter);
     return doctorTabModel->select();
 }
+
 bool IDatabase::deleteCurrentDoctor()
 {
     QModelIndex curIndex = theDoctorSelection->currentIndex();
@@ -100,10 +103,12 @@ bool IDatabase::deleteCurrentDoctor()
     doctorTabModel->submitAll();
     doctorTabModel->select();
 }
+
 bool IDatabase::submitDoctorEdit()
 {
     return doctorTabModel->submitAll();
 }
+
 void IDatabase::reverDoctorEdit()
 {
     doctorTabModel->revertAll();
@@ -113,7 +118,7 @@ void IDatabase::reverDoctorEdit()
 bool IDatabase::initMedicinesModel()
 {
     medicinesTabModel = new QSqlTableModel(this,database);
-    medicinesTabModel->setTable("Medicines");
+    medicinesTabModel->setTable("medicines");
     medicinesTabModel->setEditStrategy(QSqlTableModel::OnManualSubmit);//数据保存方式，OnManualSubmit , OnRowChange
     medicinesTabModel->setSort(medicinesTabModel->fieldIndex("name"),Qt::AscendingOrder); //排序
     if (!(medicinesTabModel->select())) return false;  //查询数据
@@ -156,6 +161,53 @@ void IDatabase::reverMedicinesEdit()
     medicinesTabModel->revertAll();
 }
 
+//就诊记录
+bool IDatabase::initHistoryModel()
+{
+    historyTabModel = new QSqlTableModel(this,database);
+    historyTabModel->setTable("history");
+    historyTabModel->setEditStrategy(QSqlTableModel::OnManualSubmit);//数据保存方式，OnManualSubmit , OnRowChange
+    historyTabModel->setSort(historyTabModel->fieldIndex("name"),Qt::AscendingOrder); //排序
+    if (!(historyTabModel->select())) return false;  //查询数据
+
+    theHistorySelection = new QItemSelectionModel(historyTabModel);
+    return true;
+}
+
+int IDatabase::addNewHistory()
+{
+    historyTabModel->insertRow(historyTabModel->rowCount(),QModelIndex());
+    QModelIndex curIndex = historyTabModel->index(historyTabModel->rowCount()-1,1);
+    int curRecNo = curIndex.row();
+    QSqlRecord curRec = historyTabModel->record(curRecNo);
+    curRec.setValue("ID",QUuid::createUuid().toString(QUuid::WithoutBraces));
+    historyTabModel->setRecord(curRecNo,curRec);
+    return curIndex.row();
+}
+
+bool IDatabase::searchHistory(QString filter)
+{
+    historyTabModel->setFilter(filter);
+    return historyTabModel->select();
+}
+
+bool IDatabase::deleteCurrentHistory()
+{
+    QModelIndex curIndex = theHistorySelection->currentIndex();
+    historyTabModel->removeRow(curIndex.row());
+    historyTabModel->submitAll();
+    historyTabModel->select();
+}
+
+bool IDatabase::submitHistoryEdit()
+{
+    return historyTabModel->submitAll();
+}
+
+void IDatabase::reverHistoryEdit()
+{
+    historyTabModel->revertAll();
+}
 
 //登录注册
 QString IDatabase::userLogin(QString userName, QString password)
